@@ -40,3 +40,11 @@
 - Preserve list boundaries as JSON strings during the pilot; do not join list items with ambiguous delimiters.
 - Exclude all raw narrative text from normalized CSV outputs.
 - Generate project-specific device/patient row keys without treating them as real-world patient identifiers.
+
+# 2026-09-09 — Pilot data profiling
+
+- Calculate missingness against each field's own table-row denominator.
+- Treat blank, `[]`, `{}`, and `null` strings as missing; retain numeric/text zero as observed.
+- Reconcile extracted device and patient counts to their child-table row counts.
+- Profile 0, 1, and more-than-1 child rows per report before any joins.
+- Treat all bounded-pilot percentages as pipeline checks, not clinical or safety findings.
