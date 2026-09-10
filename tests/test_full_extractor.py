@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 from src.full_extractor import (
+    add_api_key,
     initial_checkpoint,
     load_seen_keys,
     validate_checkpoint,
@@ -12,6 +13,12 @@ from src.full_extractor import (
 
 
 class FullExtractorTests(unittest.TestCase):
+    def test_api_key_is_added_only_to_request_url(self):
+        url = "https://api.fda.gov/device/event.json?search=x&limit=1000"
+        request_url = add_api_key(url, "secret value")
+        self.assertIn("api_key=secret+value", request_url)
+        self.assertIn("search=x", request_url)
+
     def test_checkpoint_identity_matches_frozen_run(self):
         checkpoint = initial_checkpoint("FTR", "20200101", "20251231", 1000)
         validate_checkpoint(checkpoint, "FTR", "20200101", "20251231", 1000)
