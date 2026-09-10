@@ -1,0 +1,2 @@
+# The API pilot uses only the Python standard library.
+# Analysis dependencies will be pinned after full-extraction design is approved.

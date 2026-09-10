@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+.env
+*.key
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/foiclass_*.txt
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+dashboard/*.pbix

@@ -1,0 +1,8 @@
+product_code,device_name,device_class,regulation_number,submission_type_id,implant_flag,panel,scope_status,scope_reason,source_file_date,verified_date
+FTR,"Prosthesis, Breast, Noninflatable, Internal, Silicone Gel-Filled",3,878.3540,2,Y,"General & Plastic Surgery",include_primary,"Permanent internal silicone gel-filled breast implant",2026-09-07,2026-09-08
+FWM,"Prosthesis, Breast, Inflatable, Internal, Saline",3,878.3530,2,Y,"General & Plastic Surgery",include_primary,"Permanent internal saline breast implant",2026-09-07,2026-09-08
+PQN,"Carbon Dioxide Gas Controlled Tissue Expander",2,878.3510,1,Y,"General & Plastic Surgery",exploratory_only,"Implanted tissue expander; not a permanent breast prosthesis",2026-09-07,2026-09-08
+MWZ,"Expander, Breast, External",1,890.5660,7,N,"Physical Medicine",exclude,"External expander",2026-09-07,2026-09-08
+KCZ,"Prosthesis, Breast, External, Used With Adhesive",1,878.3800,4,N,"General & Plastic Surgery",exclude,"External prosthesis",2026-09-07,2026-09-08
+NOJ,"Prosthesis, Breast, External, No Adhesive",1,878.3800,4,N,"General & Plastic Surgery",exclude,"External prosthesis",2026-09-07,2026-09-08
+QVS,"Breast Implant Suction Retrieval Device",2,878.4675,1,N,"General & Plastic Surgery",exclude,"Removal instrument, not an implant",2026-09-07,2026-09-08
