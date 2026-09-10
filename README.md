@@ -55,6 +55,7 @@ must remain limited to two pages until its checkpoint and QC output are reviewed
 - `docs/API_PILOT_RESULTS.md` — verified pilot query and aggregate counts.
 - `docs/STAGE_3_PAGINATION_GUIDE.md` — bounded multi-page extraction exercise.
 - `docs/STAGE_4_NORMALIZATION_GUIDE.md` — report/device/patient table exercise.
+- `docs/STAGE_5_DATA_PROFILING_GUIDE.md` — missingness and multiplicity exercise.
 - `PROJECT_STATE.md` — restart/handoff state.
 - `data/README.md` — data handling rules.
 - `src/`, `sql/`, `notebooks/`, `tests/`, `reports/`, `dashboard/` — implementation areas.
