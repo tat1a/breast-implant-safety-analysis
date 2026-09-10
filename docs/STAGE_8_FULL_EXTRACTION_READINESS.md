@@ -35,10 +35,20 @@ validation will fail.
 ## Commands
 
 ```powershell
+# Set the free openFDA API key for this PowerShell session only.
+# Never paste the real key into source code, Git, screenshots, or chat.
+$env:OPENFDA_API_KEY = "PASTE_YOUR_KEY_HERE"
+
 # Validation and bounded dry run only
 .\.venv\Scripts\python.exe -m unittest discover -s tests -t . -v
 .\.venv\Scripts\python.exe -m src.full_extractor --product-code FTR --max-pages 1
 .\.venv\Scripts\python.exe -m src.full_extractor --product-code FWM --max-pages 1
+```
+
+Close PowerShell after the extraction, or remove the session variable with:
+
+```powershell
+Remove-Item Env:OPENFDA_API_KEY
 ```
 
 After checkpoint review, omit `--max-pages` to resume and retrieve all remaining pages:
