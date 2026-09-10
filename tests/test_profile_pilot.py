@@ -11,6 +11,9 @@ class ProfilePilotTests(unittest.TestCase):
     def test_missing_definition(self):
         self.assertTrue(is_missing(""))
         self.assertTrue(is_missing("[]"))
+        self.assertTrue(is_missing('[""]'))
+        self.assertTrue(is_missing('["  ", null]'))
+        self.assertFalse(is_missing('["Pain", ""]'))
         self.assertFalse(is_missing("0"))
 
     def test_multiplicity_buckets(self):

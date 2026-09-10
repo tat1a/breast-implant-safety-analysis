@@ -17,7 +17,18 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 def is_missing(value: str | None) -> bool:
     if value is None or not value.strip():
         return True
-    return value.strip() in {"[]", "{}", "null"}
+    stripped = value.strip()
+    if stripped in {"[]", "{}", "null"}:
+        return True
+    try:
+        parsed = json.loads(stripped)
+    except (json.JSONDecodeError, TypeError):
+        return False
+    if isinstance(parsed, list):
+        return not parsed or all(item is None or (isinstance(item, str) and not item.strip()) for item in parsed)
+    if isinstance(parsed, dict):
+        return not parsed
+    return parsed is None
 
 
 def write_csv(path: Path, fields: list[str], rows: list[dict]) -> None:
@@ -124,7 +135,7 @@ def profile(input_dir: Path, output_dir: Path) -> Path:
         "patient_row_reconciliation_difference": len(patients) - expected_patients,
         "orphan_device_report_keys": sorted(device_keys - report_keys),
         "orphan_patient_report_keys": sorted(patient_keys - report_keys),
-        "missingness_definition": "blank, [], {}, or null string",
+        "missingness_definition": "blank scalar, empty JSON container/null, or JSON list containing only blank/null items",
         "warning": "Pilot percentages are pipeline checks and must not be presented as population or device-risk estimates.",
     }
 
