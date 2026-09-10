@@ -8,6 +8,10 @@ import json
 from collections import Counter
 from pathlib import Path
 
+INVENTORY_TO_TAXONOMY_FIELD = {
+    "product_problems_json": "product_problems_cleaned_json",
+    "patient_problems_json": "patient_problems_cleaned_json",
+}
 
 def read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8-sig", newline="") as handle:
@@ -38,10 +42,13 @@ def prepare(inventory_path: Path, taxonomy_path: Path, output_dir: Path) -> Path
 
     mapped=[]; queue=[]; link_counts=Counter(); label_counts=Counter(); priority_counts=Counter()
     for row in inventory:
-        key=(row["source_field"],row["raw_label"]); count=int(row["report_count"])
+        inventory_field = row["source_field"]
+        taxonomy_field = INVENTORY_TO_TAXONOMY_FIELD.get(inventory_field, inventory_field)
+        key=(taxonomy_field,row["raw_label"]); count=int(row["report_count"])
         label_counts["total"] += 1; link_counts["total"] += count
         rule=mapping.get(key)
-        base={"source_field":key[0],"raw_label":key[1],"report_count":count,
+        base={"source_field":inventory_field,"taxonomy_source_field":taxonomy_field,
+              "raw_label":key[1],"report_count":count,
               "item_occurrences":int(row["item_occurrences"]),"pct_of_reports":row["pct_of_reports"]}
         if rule:
             label_counts["mapped"] += 1; link_counts["mapped"] += count
@@ -53,7 +60,7 @@ def prepare(inventory_path: Path, taxonomy_path: Path, output_dir: Path) -> Path
                           "proposed_specificity":"","decision":"pending_review","review_notes":""})
     queue.sort(key=lambda r: ({"P1":0,"P2":1,"P3":2}[r["priority"]],-r["report_count"],r["source_field"],r["raw_label"]))
     mapped.sort(key=lambda r:-r["report_count"])
-    fields=["source_field","raw_label","report_count","item_occurrences","pct_of_reports"]
+    fields=["source_field","taxonomy_source_field","raw_label","report_count","item_occurrences","pct_of_reports"]
     write_csv(output_dir/"mapped_labels.csv",fields+["category","clinical_domain","specificity","taxonomy_status"],mapped)
     write_csv(output_dir/"taxonomy_review_queue.csv",fields+["priority","proposed_category","proposed_clinical_domain","proposed_specificity","decision","review_notes"],queue)
     summary={"scope":"full FTR/FWM cohort label inventory against taxonomy v1",
