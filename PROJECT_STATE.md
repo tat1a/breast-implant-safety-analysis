@@ -6,7 +6,7 @@ Breast Implant Postmarket Safety Portfolio Project
 
 ## Current phase
 
-Orientation, scope confirmation, product-code verification, API pilots, and bounded search-after pagination complete. Pilot relational normalization is implemented and ready for owner reproduction and QC review.
+Orientation, product-code verification, pagination, and relational normalization complete. Pilot missingness, multiplicity, reconciliation, and selected-category profiling is implemented for owner reproduction.
 
 ## Completed
 
@@ -25,6 +25,8 @@ Orientation, scope confirmation, product-code verification, API pilots, and boun
 - Pagination unit tests added; full extraction remains intentionally disabled by procedure.
 - Report/device/patient normalization implemented with primary/foreign keys, age parsing, and QC output.
 - Raw narratives are excluded from normalized pilot tables.
+- Missingness denominators are table-specific and explicitly recorded.
+- Device/patient row reconciliation and multiplicity checks are implemented.
 
 ## Confirmed decisions
 
@@ -54,9 +56,9 @@ Orientation, scope confirmation, product-code verification, API pilots, and boun
 
 ## Next three actions
 
-1. Run normalization against the bounded FTR/FWM pilot pages.
-2. Review row counts, key uniqueness, orphan foreign keys, and age parsing status.
-3. Design missingness and multiplicity profiles before defining complication categories.
+1. Run pilot profiling and review missingness denominators and reconciliation differences.
+2. Identify fields that require codebook validation or cannot support planned analyses.
+3. Draft complication taxonomy and manual narrative-validation protocol without claiming pilot findings.
 
 ## CV/LinkedIn claim status
 
