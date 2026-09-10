@@ -9,9 +9,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -34,6 +36,16 @@ def utc_now() -> str:
 
 def sha256_bytes(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()
+
+
+def add_api_key(url: str, api_key: str | None) -> str:
+    """Add the secret at request time; checkpoint URLs always remain redacted."""
+    if not api_key:
+        return url
+    parts = urlsplit(url)
+    query = [(key, value) for key, value in parse_qsl(parts.query) if key != "api_key"]
+    query.insert(0, ("api_key", api_key))
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
 
 
 def read_page(path: Path, expected_sha256: str | None = None) -> dict:
@@ -118,6 +130,7 @@ def extract_full_code(
     retries: int = 4,
     retry_base_seconds: float = 1.0,
     max_pages: int | None = None,
+    api_key: str | None = None,
 ) -> Path:
     code = product_code.upper()
     if code not in FROZEN_CODES:
@@ -148,7 +161,8 @@ def extract_full_code(
     pages_this_run = 0
 
     while url and (max_pages is None or pages_this_run < max_pages):
-        payload, link_header = request_page(url, retries, retry_base_seconds)
+        request_url = add_api_key(url, api_key or os.environ.get("OPENFDA_API_KEY"))
+        payload, link_header = request_page(request_url, retries, retry_base_seconds)
         parsed = json.loads(payload)
         results = parsed.get("results", [])
         if not isinstance(results, list):
