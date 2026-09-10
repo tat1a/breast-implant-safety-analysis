@@ -49,3 +49,10 @@
 - Profile 0, 1, and more-than-1 child rows per report before any joins.
 - Treat all bounded-pilot percentages as pipeline checks, not clinical or safety findings.
 - Treat a JSON list containing only blank or null items (for example, `[""]`) as semantically missing while preserving the original normalized value.
+
+# 2026-09-10 — Pilot list cleaning
+
+- Preserve normalized list fields and write cleaned lists to separate derived outputs.
+- Remove blank/null items and exact repeated problem labels while retaining item order.
+- Preserve repeated follow-up entries and derive a separate follow-up count.
+- Standardize only reviewed capitalization variants; queue unknown codes for validation.
