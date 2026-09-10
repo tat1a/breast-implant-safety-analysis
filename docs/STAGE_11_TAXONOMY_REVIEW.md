@@ -4,6 +4,10 @@ The pilot taxonomy must not be silently generalized to all 545 full-cohort label
 This stage performs exact source-field + raw-label matching, reports current coverage,
 and creates an auditable queue for unmapped terms.
 
+The full inventory's normalized field names are explicitly aliased to the cleaned-field
+names used by taxonomy v1. Both names are retained in outputs so mappings can be audited
+and promoted to taxonomy v2 without silent field-name mismatches.
+
 Priority is based only on frequency: P1 >=1,000 reports; P2 100–999; P3 <100.
 Priority does not indicate clinical severity. No automated clinical category is assigned
 to unmapped labels. Informational/non-events such as unavailable codes, insufficient
