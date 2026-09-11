@@ -16,6 +16,9 @@ class TaxonomyReviewTests(unittest.TestCase):
             write(tax,[{"source_field":"product_problems_cleaned_json","raw_label":"Rupture","category":"rupture","clinical_domain":"device_integrity","specificity":"specific","status":"approved"}])
             summary=json.loads(prepare(inv,tax,r/"out").read_text())
             self.assertEqual(summary["distinct_labels_exact_mapped"],1);self.assertEqual(summary["distinct_labels_unmapped"],1);self.assertTrue(summary["qc_gate_passed"])
+            self.assertEqual(summary["taxonomy_version"], "taxonomy")
+            self.assertEqual(summary["taxonomy_file"], "taxonomy.csv")
+            self.assertNotIn("taxonomy v1", summary["scope"])
             with (r/"out"/"mapped_labels.csv").open(encoding="utf-8-sig") as h:
                 mapped=list(csv.DictReader(h))
             self.assertEqual(mapped[0]["source_field"],"product_problems_json")

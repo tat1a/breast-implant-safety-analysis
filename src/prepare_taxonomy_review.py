@@ -63,7 +63,10 @@ def prepare(inventory_path: Path, taxonomy_path: Path, output_dir: Path) -> Path
     fields=["source_field","taxonomy_source_field","raw_label","report_count","item_occurrences","pct_of_reports"]
     write_csv(output_dir/"mapped_labels.csv",fields+["category","clinical_domain","specificity","taxonomy_status"],mapped)
     write_csv(output_dir/"taxonomy_review_queue.csv",fields+["priority","proposed_category","proposed_clinical_domain","proposed_specificity","decision","review_notes"],queue)
-    summary={"scope":"full FTR/FWM cohort label inventory against taxonomy v1",
+    taxonomy_version = taxonomy_path.stem.removeprefix("complication_taxonomy_")
+    summary={"scope":f"full FTR/FWM cohort label inventory against taxonomy {taxonomy_version}",
+             "taxonomy_version":taxonomy_version,
+             "taxonomy_file":taxonomy_path.name,
              "distinct_labels_total":label_counts["total"],"distinct_labels_exact_mapped":label_counts["mapped"],
              "distinct_labels_unmapped":label_counts["total"]-label_counts["mapped"],
              "label_report_links_total":link_counts["total"],"label_report_links_exact_mapped":link_counts["mapped"],
