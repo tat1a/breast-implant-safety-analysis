@@ -1,3 +1,4 @@
 # Extraction and normalization use only the Python standard library.
 # The analytical layer uses pandas; the installed version is recorded in QC output.
 pandas>=2.2,<4.0
+matplotlib>=3.9,<4.0
