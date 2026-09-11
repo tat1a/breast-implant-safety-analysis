@@ -1,0 +1,42 @@
+{
+  "scope": "aggregate-only Power BI dataset for FTR/FWM 2020-2025 reporting analysis",
+  "input_report_rows": 237194,
+  "upstream_qc_passed": {
+    "reporting_analysis": true,
+    "cohort_characteristics": true,
+    "final_evidence": true
+  },
+  "reconciliation_checks": {
+    "annual_reconciles": true,
+    "query_composition_reconciles": true,
+    "followup_reconciles": true,
+    "lag_reconciles": true,
+    "event_date_reconciles": true,
+    "year_dimension_matches": true,
+    "annual_year_unique": true,
+    "query_key_unique": true,
+    "category_year_key_unique": true,
+    "category_counts_valid": true
+  },
+  "tables_created": [
+    "DimYear.csv",
+    "KpiSummary.csv",
+    "AnnualReporting.csv",
+    "QueryComposition.csv",
+    "CategoryByYear.csv",
+    "CategoryOverall.csv",
+    "DomainByYear.csv",
+    "ReporterSource.csv",
+    "SourceType.csv",
+    "FollowupSummary.csv",
+    "ReportingLag.csv",
+    "EventDateCompleteness.csv",
+    "PatientEntryCharacteristics.csv",
+    "DataDictionary.csv"
+  ],
+  "contains_row_level_reports": false,
+  "contains_narratives": false,
+  "contains_manufacturer_safety_ranking": false,
+  "qc_gate_passed": true,
+  "warning": "MDR reporting patterns only; not incidence, causality, unique patients/devices, comparative safety, or manufacturer rankings."
+}

@@ -1,0 +1,42 @@
+﻿Field,Value,RowCount,PctOfRows
+patient_age_status,valid,173290,73.07
+patient_age_status,missing,41747,17.6
+patient_age_status,unparsed,22101,9.32
+patient_age_status,invalid_range,17,0.01
+age_band,[Missing],63865,26.93
+age_band,40-49,51088,21.54
+age_band,30-39,41369,17.44
+age_band,50-59,40919,17.25
+age_band,60-69,21074,8.89
+age_band,18-29,12414,5.23
+age_band,70+,6252,2.64
+age_band,0-17,174,0.07
+patient_sex,Female,172287,72.65
+patient_sex,[Missing],59969,25.29
+patient_sex,Unknown,4764,2.01
+patient_sex,Male,125,0.05
+patient_sex,Prefer Not To Disclose,10,0.0
+patient_ethnicity,[Missing],186563,78.67
+patient_ethnicity,Non Hispanic,42960,18.11
+patient_ethnicity,Hispanic,7632,3.22
+patient_race,[Missing],186393,78.6
+patient_race,White,45016,18.98
+patient_race,Asian,3457,1.46
+patient_race,Black Or African American,1777,0.75
+patient_race,American Indian Or Alaskan Native,166,0.07
+patient_race,Native Hawaiian Or Other Pacific Islander,100,0.04
+patient_race,"Black Or African American, White",79,0.03
+patient_race,"American Indian Or Alaskan Native, White",50,0.02
+patient_race,"Asian, White",49,0.02
+patient_race,"Native Hawaiian Or Other Pacific Islander, White",15,0.01
+patient_race,"White, American Indian Or Alaskan Native",14,0.01
+patient_race,"Asian, Native Hawaiian Or Other Pacific Islander",11,0.0
+patient_race,"Black Or African American, Asian",7,0.0
+patient_race,"Asian, Native Hawaiian Or Other Pacific Islander, White",5,0.0
+patient_race,"Black Or African American, American Indian Or Alaskan Native",4,0.0
+patient_race,"Asian, Black Or African American, White",3,0.0
+patient_race,"Black Or African American, Asian, White",3,0.0
+patient_race,"Asian, Black Or African American",2,0.0
+patient_race,"Black Or African American, American Indian Or Alaskan Native, Asian, White",2,0.0
+patient_race,"Black Or African American, American Indian Or Alaskan Native, White",1,0.0
+patient_race,"White, American Indian Or Alaskan Native, Native Hawaiian Or Other Pacific Islander",1,0.0
