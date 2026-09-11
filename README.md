@@ -1,73 +1,116 @@
-# Breast Implant Postmarket Safety Portfolio Project
+# Breast Implant Postmarket Safety Analysis
 
-## Working title
+**A reproducible descriptive analysis of FDA Medical Device Reports for permanent breast implants, 2020–2025**
 
-**Postmarket Safety Signals Associated with Permanent Breast Implants: A Reproducible Descriptive Analysis of FDA Medical Device Reports, 2020–2025**
+## Project overview
 
-## Current status
+This independent clinical-data portfolio project analyzes FDA MAUDE/openFDA medical
+device reports returned by the permanent breast implant product-code queries FTR
+and FWM. It demonstrates API extraction, checkpointed pagination, relational data
+modeling, data-quality assessment, clinical taxonomy development, pandas analysis,
+testing, visualization, and responsible interpretation of postmarket surveillance data.
 
-Protocol and small API-pilot phase complete. Five FTR and five FWM sample records were retrieved to validate query construction and schema; no clinical results are claimed.
+The analysis covers aesthetic augmentation and reconstructive relevance. It describes
+reported patterns; it does not measure complication incidence or comparative safety.
 
-## Purpose
+## Headline results
 
-This independent portfolio project will characterize report types, coded patient and device problems, reporting sources, report completeness, and duplicate/supplemental-report structure among FDA medical device reports involving permanent breast implants. It covers devices used in aesthetic augmentation and breast reconstruction.
+| Metric | Result |
+| --- | ---: |
+| API records returned by the two frozen queries | 237,213 |
+| Unique MDR reports after cross-query deduplication | 237,194 |
+| Device entries | 241,342 |
+| Patient entries (not unique patients) | 237,155 |
+| Report-label links | 544,199 |
+| Exact taxonomy coverage | 98.79% |
+| Reports with at least one coded follow-up | 140,095 (59.06%) |
+| Reports lacking a usable clinical event date | 52,411 |
+| Negative event-to-receipt intervals retained as anomalies | 149 |
+| Automated tests after Stage 17 | 57 passing |
 
-This is a descriptive postmarket-signal and data-quality study. It will not estimate incidence, prevalence, causality, comparative device safety, or patient-level risk.
+The most frequently mapped reported categories were rupture (100,777 reports;
+42.49%), capsular contracture (98,586; 41.56%), nonspecific implant failure
+(69,675; 29.37%), device-triggered rejection (49,957; 21.06%), and
+deformity/disfigurement (33,896; 14.29%). Categories overlap within reports.
 
-## Reproduce the API pilot
+## What this project demonstrates
 
-From the repository root with Python 3.10 or newer:
+- Reproducible openFDA extraction with stable sorting, search-after pagination,
+  retries, atomic checkpoints, per-page SHA-256 hashes, and resume protection.
+- Normalization of nested report, device, and patient arrays into linked tables with
+  primary/foreign-key and reconciliation checks.
+- Transparent handling of missing, invalid, differently encoded, and repeated values.
+- A reviewed complication taxonomy covering all high- and medium-priority labels and
+  98.79% of observed report-label links.
+- Report-level pandas analysis with preserved entity granularity.
+- Data-derived tables, SVG figures, QC manifests, and a final evidence report.
+- Explicit separation of observed report counts from causal or risk claims.
 
-```bash
+## Key findings
+
+- Annual report volume ranged from 34,707 to 44,458 between 2020 and 2025, with the
+  largest year-over-year increase in 2022 (+28.10%).
+- Rupture and capsular contracture were the two most frequently mapped categories.
+- 59.06% of reports included at least one coded follow-up submission.
+- Clinical event dates were missing for 52,411 reports, limiting event-time analyses.
+- Time trends are treated as surveillance/reporting patterns, not clinical incidence.
+
+## Interpretation boundaries
+
+MAUDE is a passive surveillance system. It does not provide the number of implanted
+patients or devices, complete case capture, or a validated probability of reporting.
+Reports may be affected by follow-up practices, manufacturers, reporters, coding
+changes, publicity, litigation, and regulation.
+
+Therefore this project does **not** estimate incidence, prevalence, patient-level
+complication percentages, causality, comparative manufacturer/brand safety, or unique
+patient counts. Manufacturer and brand counts are reporting associations, not rankings.
+
+## Reproduce the analysis
+
+Python 3.10 or newer is recommended.
+
+~~~powershell
+python -m pip install -r requirements.txt
 python -m unittest discover -s tests -t . -v
-python src/openfda_client.py --product-code FTR --limit 5
-python src/openfda_client.py --product-code FWM --limit 5
-```
 
-The commands create local raw responses and extraction manifests under `data/raw/`. That folder is intentionally excluded from Git. Do not publish raw narrative text or patient-level fields.
+python -m src.normalize_full
+python -m src.profile_full
+python -m src.build_analytic_dataset
+python -m src.analyze_reporting_patterns
+python -m src.summarize_cohort_characteristics
+python -m src.build_final_evidence
+~~~
 
-The next bounded pagination exercise is documented in
-`docs/STAGE_3_PAGINATION_GUIDE.md`. It uses openFDA's `search_after` cursor and
-must remain limited to two pages until its checkpoint and QC output are reviewed.
+Full extraction is checkpointed and resumable; consult the stage documentation before
+rerunning downloads. Raw responses and row-level datasets stay local and excluded from
+Git. Only aggregate, non-identifiable portfolio outputs should be published.
 
-## Immediate next gate
+## Repository guide
 
-1. Reproduce and explain the pilot queries.
-2. Design safe pagination/checkpointing for full retrieval.
-3. Normalize report, device, and patient arrays into linked tables.
-4. Profile multiplicity, duplicates, missingness, and source fields before analysis variables are frozen.
+- protocol/PROTOCOL_v0.1.md — prespecified scope and analysis boundaries.
+- docs/ORIENTATION.md — MAUDE concepts and valid/invalid inference rules.
+- docs/API_FIELD_MAPPING.md — source-to-analysis field mapping.
+- config/complication_taxonomy_v5.csv — reviewed clinical taxonomy.
+- src/full_extractor.py — resumable full-cohort extraction.
+- src/normalize_full.py — relational normalization and QC.
+- src/build_analytic_dataset.py — report-level pandas analytical layer.
+- src/analyze_reporting_patterns.py — descriptive tables and figures.
+- src/summarize_cohort_characteristics.py — cohort and data-quality summaries.
+- src/build_final_evidence.py — validated final evidence package.
+- reports/final_evidence/ — publishable aggregate findings and figures.
+- docs/STAGE_*.md — step-by-step development record.
+- PROJECT_STATE.md — completion and handoff status.
 
-## Planned tools
+## Data sources
 
-- Python and pandas
-- SQL (initially DuckDB or SQLite)
-- openFDA Device Event API
-- Power BI
-- Git and GitHub
+- [FDA MAUDE overview and limitations](https://www.fda.gov/medical-devices/mandatory-reporting-requirements-manufacturers-importers-and-device-user-facilities/about-manufacturer-and-user-facility-device-experience-maude-database)
+- [openFDA Device Event API](https://open.fda.gov/apis/device/event/)
+- [Device Event searchable fields](https://open.fda.gov/apis/device/event/searchable-fields/)
+- [FDA Product Classification Database](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPCD/classification.cfm)
 
-## Repository map
+## Status
 
-- `docs/ORIENTATION.md` — MAUDE concepts and valid/invalid inference rules.
-- `docs/SCOPE.md` — approved scope and questions.
-- `protocol/PROTOCOL_v0.1.md` — pre-data protocol draft.
-- `docs/DECISIONS.md` — decisions and their reasons.
-- `docs/API_FIELD_MAPPING.md` — draft source-to-analysis field map and limitations.
-- `docs/API_PILOT_RESULTS.md` — verified pilot query and aggregate counts.
-- `docs/STAGE_3_PAGINATION_GUIDE.md` — bounded multi-page extraction exercise.
-- `docs/STAGE_4_NORMALIZATION_GUIDE.md` — report/device/patient table exercise.
-- `docs/STAGE_5_DATA_PROFILING_GUIDE.md` — missingness and multiplicity exercise.
-- `PROJECT_STATE.md` — restart/handoff state.
-- `data/README.md` — data handling rules.
-- `src/`, `sql/`, `notebooks/`, `tests/`, `reports/`, `dashboard/` — implementation areas.
-
-## Official starting sources
-
-- FDA MAUDE overview and limitations: https://www.fda.gov/medical-devices/mandatory-reporting-requirements-manufacturers-importers-and-device-user-facilities/about-manufacturer-and-user-facility-device-experience-maude-database
-- openFDA Device Event API: https://open.fda.gov/apis/device/event/
-- Device Event searchable fields: https://open.fda.gov/apis/device/event/searchable-fields/
-- FDA Product Classification Database: https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPCD/classification.cfm
-- openFDA Device Classification API: https://open.fda.gov/apis/device/classification/
-
-## Integrity rule
-
-The project may be listed as completed on a CV or LinkedIn only after the extraction pipeline, quality checks, analysis, report, and reproducibility instructions are complete and verified.
+Extraction, normalization, taxonomy, descriptive analysis, QC, testing, and final
+evidence generation are complete. Final repository presentation and publication of
+selected aggregate outputs are in progress.
