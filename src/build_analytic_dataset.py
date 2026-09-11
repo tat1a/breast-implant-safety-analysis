@@ -21,7 +21,7 @@ def parse_list(value: str, field: str) -> list[str]:
         raise ValueError(f"Invalid JSON list in {field}: {value!r}") from exc
     if not isinstance(parsed, list):
         raise ValueError(f"{field} must contain a JSON list")
-    return [str(item).strip() for item in parsed if str(item).strip()]
+    return [str(item).strip() for item in parsed if item is not None and str(item).strip()]
 
 
 def label_rows(frame: pd.DataFrame, source_field: str) -> pd.DataFrame:
@@ -36,7 +36,12 @@ def label_rows(frame: pd.DataFrame, source_field: str) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=["mdr_report_key", "source_field", "raw_label"])
 
 
-def build(input_dir: Path, taxonomy_path: Path, output_dir: Path) -> Path:
+def build(
+    input_dir: Path,
+    taxonomy_path: Path,
+    output_dir: Path,
+    inventory_path: Path | None = None,
+) -> Path:
     reports = pd.read_csv(input_dir / "reports.csv", dtype=str, keep_default_na=False)
     patients = pd.read_csv(input_dir / "patients.csv", dtype=str, keep_default_na=False)
     taxonomy = pd.read_csv(taxonomy_path, dtype=str, keep_default_na=False)
@@ -88,8 +93,10 @@ def build(input_dir: Path, taxonomy_path: Path, output_dir: Path) -> Path:
     for field in ("distinct_label_count", "mapped_label_count", "included_category_count"):
         report_analysis[field] = report_analysis[field].fillna(0).astype("int64")
 
-    received = pd.to_datetime(report_analysis["date_received"], format="%Y%m%d", errors="coerce")
-    event = pd.to_datetime(report_analysis["date_of_event"], format="%Y%m%d", errors="coerce")
+    received_raw = report_analysis["date_received"].str.strip()
+    event_raw = report_analysis["date_of_event"].str.strip()
+    received = pd.to_datetime(received_raw, format="%Y%m%d", errors="coerce")
+    event = pd.to_datetime(event_raw, format="%Y%m%d", errors="coerce")
     report_analysis["date_received_iso"] = received.dt.strftime("%Y-%m-%d").fillna("")
     report_analysis["received_year"] = received.dt.year.astype("Int64")
     report_analysis["date_of_event_iso"] = event.dt.strftime("%Y-%m-%d").fillna("")
@@ -133,6 +140,12 @@ def build(input_dir: Path, taxonomy_path: Path, output_dir: Path) -> Path:
     domain_summary.to_csv(output_dir / "domain_summary.csv", index=False, encoding="utf-8-sig")
 
     mapped_links = int(label_links["mapped"].sum())
+    expected_label_links = None
+    label_link_reconciliation_difference = None
+    if inventory_path is not None:
+        inventory = pd.read_csv(inventory_path, dtype={"report_count": "int64"})
+        expected_label_links = int(inventory["report_count"].sum())
+        label_link_reconciliation_difference = len(label_links) - expected_label_links
     qc = {
         "scope": "full FTR/FWM report-level analytical dataset, date_received 2020-01-01 through 2025-12-31",
         "taxonomy_file": taxonomy_path.name,
@@ -147,11 +160,16 @@ def build(input_dir: Path, taxonomy_path: Path, output_dir: Path) -> Path:
         "reports_without_source_labels": int((report_analysis["distinct_label_count"] == 0).sum()),
         "reports_without_mapped_labels": int((report_analysis["mapped_label_count"] == 0).sum()),
         "duplicate_report_keys": int(report_analysis["mdr_report_key"].duplicated().sum()),
-        "invalid_date_received": int(received.isna().sum()),
-        "invalid_date_of_event": int(event.isna().sum()),
+        "expected_report_label_links_from_profile": expected_label_links,
+        "report_label_link_reconciliation_difference": label_link_reconciliation_difference,
+        "missing_date_received": int(received_raw.eq("").sum()),
+        "invalid_nonmissing_date_received": int((received_raw.ne("") & received.isna()).sum()),
+        "missing_date_of_event": int(event_raw.eq("").sum()),
+        "invalid_nonmissing_date_of_event": int((event_raw.ne("") & event.isna()).sum()),
         "qc_gate_passed": len(report_analysis) == len(reports)
         and not report_analysis["mdr_report_key"].duplicated().any()
-        and set(label_links["mdr_report_key"]).issubset(set(reports["mdr_report_key"])),
+        and set(label_links["mdr_report_key"]).issubset(set(reports["mdr_report_key"]))
+        and (label_link_reconciliation_difference in (None, 0)),
         "warning": "Counts describe MDR reports and coded report links, not unique patients/devices, incidence, causality, or comparative safety.",
     }
     qc_path = output_dir / "analytic_dataset_qc.json"
@@ -164,9 +182,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--input-dir", type=Path, default=Path("data/processed/full_normalized"))
     parser.add_argument("--taxonomy", type=Path, default=Path("config/complication_taxonomy_v5.csv"))
     parser.add_argument("--output-dir", type=Path, default=Path("data/processed/full_analytic"))
+    parser.add_argument(
+        "--inventory",
+        type=Path,
+        default=Path("data/processed/full_profile/complication_label_inventory.csv"),
+    )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    print(f"Analytic QC: {build(args.input_dir, args.taxonomy, args.output_dir)}")
+    print(f"Analytic QC: {build(args.input_dir, args.taxonomy, args.output_dir, args.inventory)}")
