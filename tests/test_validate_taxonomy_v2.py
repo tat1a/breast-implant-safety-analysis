@@ -12,6 +12,9 @@ class TaxonomyV2Tests(unittest.TestCase):
     def test_batch_two_taxonomy_is_valid(self):
         result=validate(Path("config/complication_taxonomy_v4.csv"));self.assertTrue(result["validation_passed"]);self.assertEqual(result["rows"],82)
         self.assertEqual(result["taxonomy_version"], "v4")
+    def test_completed_p2_taxonomy_is_valid(self):
+        result=validate(Path("config/complication_taxonomy_v5.csv"));self.assertTrue(result["validation_passed"]);self.assertEqual(result["rows"],106)
+        self.assertEqual(result["taxonomy_version"], "v5")
     def test_duplicate_key_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/"t.csv";row=dict.fromkeys(REQUIRED,"x");row.update(source_field="product_problems_cleaned_json",analysis_role="included",specificity="specific")
