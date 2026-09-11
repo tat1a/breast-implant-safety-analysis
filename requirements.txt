@@ -1,2 +1,3 @@
-# The API pilot uses only the Python standard library.
-# Analysis dependencies will be pinned after full-extraction design is approved.
+# Extraction and normalization use only the Python standard library.
+# The analytical layer uses pandas; the installed version is recorded in QC output.
+pandas>=2.2,<4.0
