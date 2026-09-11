@@ -1,78 +1,68 @@
-# Approved Scope — Version 0.1
+# Approved Scope — Version 1.0
 
 ## Research domain
 
-Medical-device postmarket surveillance at the intersection of aesthetic and reconstructive breast surgery.
+Medical-device postmarket surveillance at the intersection of aesthetic and
+reconstructive breast surgery.
 
-## Primary device scope
+## Frozen cohort
 
-Permanent breast implants used for aesthetic augmentation or breast reconstruction. The FDA Product Classification file dated 2026-09-07 confirms the following primary product codes:
+- Product codes: FTR (silicone gel-filled internal breast prosthesis) and FWM
+  (saline inflatable internal breast prosthesis).
+- Cohort date: FDA date_received from 2020-01-01 through 2025-12-31.
+- Primary analytical unit: unique scoped MDR report identified by mdr_report_key.
+- Secondary units: device entries, patient entries, and report-label links.
 
-- `FTR` — Prosthesis, Breast, Noninflatable, Internal, Silicone Gel-Filled; Class III; implant flag Y; regulation 21 CFR 878.3540.
-- `FWM` — Prosthesis, Breast, Inflatable, Internal, Saline; Class III; implant flag Y; regulation 21 CFR 878.3530.
+The FDA classification source and reviewed mapping are documented in
+data/external/SOURCE_MANIFEST.md and data/external/product_code_scope_v0.1.csv.
 
-The mapping is stored in `data/external/product_code_scope_v0.1.csv`. Product classification will be rechecked at the final extraction date because the FDA source file is updated weekly.
+## Exclusions
 
-## Provisional exclusions
-
-- Tissue expander-only reports from the primary cohort.
+- Tissue expander-only queries.
 - External breast prostheses.
-- Surgical mesh and unrelated breast devices.
-- Instruments and accessories that are not permanent breast implants.
-- Records outside verified FDA permanent breast-implant product classifications.
+- Surgical mesh, instruments, accessories, and unrelated breast devices.
+- Records outside the verified FTR/FWM queries.
 
-Tissue expanders may be retained as a separate exploratory cohort after their product classifications are verified.
+## Final research question
 
-## Study period
+What complication labels, reporting characteristics, temporal reporting patterns,
+follow-up structure, and data-quality limitations are represented in FDA MDR reports
+involving permanent breast implants received between 2020 and 2025?
 
-Reports received by FDA from 2020-01-01 through 2025-12-31.
+## Completed analyses
 
-The period contains six complete calendar years. Calendar year 2026 is excluded because it is incomplete. The COVID-19 period and changes in reporting practices will be treated as interpretive limitations. No time-trend in true clinical risk will be inferred.
+1. Query and annual report counts.
+2. Cross-query overlap and report-key reconciliation.
+3. Report, device-entry, and patient-entry multiplicity.
+4. Field missingness and date validity.
+5. Coded device- and patient-problem taxonomy.
+6. Overall and annual report-level category frequencies.
+7. Source and reporter characteristics.
+8. Follow-up label multiplicity.
+9. Event-to-receipt reporting lag and negative-date anomalies.
+10. Patient-entry demographic completeness.
+11. Manufacturer/brand report associations without safety ranking.
+12. Final QC-gated evidence tables and figures.
 
-## Primary unit of analysis
+## Out-of-scope questions
 
-An initial medical device report involving at least one verified permanent breast implant.
+The project does not estimate:
 
-## Additional units
+- complication incidence, prevalence, or patient risk;
+- the percentage of implanted patients experiencing rupture or another event;
+- causal effects of an implant;
+- comparative manufacturer, brand, model, FTR, or FWM safety;
+- unique patient counts;
+- mandatory/voluntary classification without a validated rule;
+- conclusions from unpublished raw narrative text.
 
-- Report family.
-- Supplemental report.
-- Device record.
-- Patient record.
-- Patient-problem code.
-- Device-problem code.
-- Narrative segment.
+## Deferred extensions
 
-## Primary research question
+Narrative annotation, indication classification, report-family linkage, a separate
+tissue-expander cohort, and predictive modeling require new protocols and validation.
+They are not implied by the completed analysis.
 
-What event types, patient problems, device problems, reporting characteristics, and data-quality limitations are represented in FDA medical device reports involving permanent breast implants received between 2020 and 2025?
+## Scope status
 
-## Secondary questions
-
-1. What proportions of retrieved records are initial and supplemental reports?
-2. How complete are selected report, device, patient, and narrative fields?
-3. Which report-source and reporter-occupation categories are represented?
-4. How much narrative text is available and usable?
-5. How do all-record summaries differ from initial-only summaries?
-6. How many exact duplicates, potential duplicates, or linked report families can be identified under documented rules?
-7. Which patient-problem and device-problem categories co-occur within reports?
-8. Can aesthetic augmentation and reconstructive indications be identified with adequate completeness and reliability?
-9. How consistently are product code, generic name, manufacturer, brand, and model recorded?
-10. Which narrative themes may justify better-designed follow-up studies?
-
-## Exploratory analyses
-
-- Narrative theme classification with manual validation.
-- Reports mentioning rupture, deflation, infection, inflammation, pain, reoperation, explantation, or reconstruction.
-- Completeness differences by recorded source type.
-- A separate tissue-expander feasibility analysis.
-
-## Scope freeze conditions
-
-This scope becomes Version 1.0 only after:
-
-1. Permanent breast-implant product codes are verified in the FDA Product Classification Database. **Completed for FTR and FWM on 2026-09-08 using the 2026-09-07 classification file.**
-2. A small classification API query or equivalent classification-file parsing test is inspected.
-3. A small Device Event API query is inspected.
-4. Date, report type, source, reporter, device, patient, problem, and narrative fields are mapped to FDA definitions.
-5. The feasibility of initial/supplemental linkage is assessed.
+Frozen on 2026-09-11. Any extension must be versioned separately and must not silently
+change the denominator or interpretation of the completed cohort.
