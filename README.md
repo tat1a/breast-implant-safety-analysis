@@ -1,14 +1,17 @@
 # Breast Implant Postmarket Safety Analysis
 
+[![tests](https://github.com/tat1a/breast-implant-safety-analysis/actions/workflows/tests.yml/badge.svg)](https://github.com/tat1a/breast-implant-safety-analysis/actions/workflows/tests.yml)
+
 **A reproducible descriptive analysis of FDA Medical Device Reports for permanent breast implants, 2020–2025**
 
 ## Project overview
 
 This independent clinical-data portfolio project analyzes FDA MAUDE/openFDA medical
-device reports returned by the permanent breast implant product-code queries FTR
-and FWM. It demonstrates API extraction, checkpointed pagination, relational data
+device reports returned by the permanent breast implant product-code queries FTR and
+FWM. It demonstrates API extraction, checkpointed pagination, relational data
 modeling, data-quality assessment, clinical taxonomy development, pandas analysis,
-testing, visualization, and responsible interpretation of postmarket surveillance data.
+automated testing, visualization, and responsible interpretation of postmarket
+surveillance data.
 
 The analysis covers aesthetic augmentation and reconstructive relevance. It describes
 reported patterns; it does not measure complication incidence or comparative safety.
@@ -26,12 +29,21 @@ reported patterns; it does not measure complication incidence or comparative saf
 | Reports with at least one coded follow-up | 140,095 (59.06%) |
 | Reports lacking a usable clinical event date | 52,411 |
 | Negative event-to-receipt intervals retained as anomalies | 149 |
-| Automated tests after Stage 17 | 57 passing |
+| Automated tests at final analytical verification | 57 passing |
 
 The most frequently mapped reported categories were rupture (100,777 reports;
 42.49%), capsular contracture (98,586; 41.56%), nonspecific implant failure
 (69,675; 29.37%), device-triggered rejection (49,957; 21.06%), and
 deformity/disfigurement (33,896; 14.29%). Categories overlap within reports.
+
+## Selected figures
+
+![Follow-up multiplicity among scoped MDR reports](reports/final_evidence/figures/followup_multiplicity.svg)
+
+![Median event-to-FDA-receipt interval](reports/final_evidence/figures/median_reporting_lag.svg)
+
+Each figure carries the inference warning in the image. These plots describe reporting
+processes, not clinical complication rates.
 
 ## What this project demonstrates
 
@@ -54,6 +66,9 @@ deformity/disfigurement (33,896; 14.29%). Categories overlap within reports.
 - 59.06% of reports included at least one coded follow-up submission.
 - Clinical event dates were missing for 52,411 reports, limiting event-time analyses.
 - Time trends are treated as surveillance/reporting patterns, not clinical incidence.
+
+See the [final evidence summary](reports/final_evidence/FINAL_EVIDENCE_SUMMARY.md) and
+[final QC manifest](reports/final_evidence/final_evidence_qc.json).
 
 ## Interpretation boundaries
 
@@ -84,23 +99,24 @@ python -m src.build_final_evidence
 
 Full extraction is checkpointed and resumable; consult the stage documentation before
 rerunning downloads. Raw responses and row-level datasets stay local and excluded from
-Git. Only aggregate, non-identifiable portfolio outputs should be published.
+Git. Only aggregate, non-identifiable portfolio outputs are published.
 
 ## Repository guide
 
-- protocol/PROTOCOL_v0.1.md — prespecified scope and analysis boundaries.
-- docs/ORIENTATION.md — MAUDE concepts and valid/invalid inference rules.
-- docs/API_FIELD_MAPPING.md — source-to-analysis field mapping.
-- config/complication_taxonomy_v5.csv — reviewed clinical taxonomy.
+- [Protocol v1.0](protocol/PROTOCOL_v1.0.md) — frozen final analytical protocol.
+- [Scope v1.0](docs/SCOPE.md) — cohort, questions, exclusions, and deferred extensions.
+- [MAUDE orientation](docs/ORIENTATION.md) — valid and invalid inference rules.
+- [API field mapping](docs/API_FIELD_MAPPING.md) — source-to-analysis definitions.
+- [Taxonomy v5](config/complication_taxonomy_v5.csv) — reviewed clinical mapping.
+- [Data handling](data/README.md) — privacy, provenance, and publication rules.
+- [Portfolio claims](docs/PORTFOLIO_CLAIMS.md) — verified CV/LinkedIn language.
 - src/full_extractor.py — resumable full-cohort extraction.
 - src/normalize_full.py — relational normalization and QC.
 - src/build_analytic_dataset.py — report-level pandas analytical layer.
 - src/analyze_reporting_patterns.py — descriptive tables and figures.
 - src/summarize_cohort_characteristics.py — cohort and data-quality summaries.
-- src/build_final_evidence.py — validated final evidence package.
-- reports/final_evidence/ — publishable aggregate findings and figures.
-- docs/STAGE_*.md — step-by-step development record.
-- PROJECT_STATE.md — completion and handoff status.
+- src/build_final_evidence.py — QC-gated final evidence package.
+- docs/STAGE_*.md — chronological development and reproducibility record.
 
 ## Data sources
 
@@ -109,8 +125,10 @@ Git. Only aggregate, non-identifiable portfolio outputs should be published.
 - [Device Event searchable fields](https://open.fda.gov/apis/device/event/searchable-fields/)
 - [FDA Product Classification Database](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPCD/classification.cfm)
 
-## Status
+## Project status
 
-Extraction, normalization, taxonomy, descriptive analysis, QC, testing, and final
-evidence generation are complete. Final repository presentation and publication of
-selected aggregate outputs are in progress.
+The extraction, normalization, taxonomy, descriptive analysis, QC, automated testing,
+and static evidence package are complete. The Power BI dashboard is the remaining
+presentation enhancement.
+
+Repository-authored code and documentation are available under the MIT License.
