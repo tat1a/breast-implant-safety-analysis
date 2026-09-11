@@ -1,4 +1,4 @@
-"""Validate taxonomy v2 before it is used for full-cohort classification."""
+"""Validate a versioned taxonomy before full-cohort classification."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ SOURCE_FIELDS={"product_problems_cleaned_json","patient_problems_cleaned_json"}
 def validate(path:Path,output:Path|None=None)->dict:
     with path.open(encoding="utf-8-sig",newline="") as h:
         reader=csv.DictReader(h)
-        if tuple(reader.fieldnames or ())!=REQUIRED: raise ValueError("taxonomy v2 schema mismatch")
+        if tuple(reader.fieldnames or ())!=REQUIRED: raise ValueError("taxonomy schema mismatch")
         rows=list(reader)
     seen=set();roles=Counter();errors=[]
     for number,row in enumerate(rows,start=2):
@@ -27,7 +27,8 @@ def validate(path:Path,output:Path|None=None)->dict:
         if not all(row[field].strip() for field in REQUIRED): errors.append(f"row {number}: blank required value")
         roles[row["analysis_role"]]+=1
     if errors: raise ValueError("; ".join(errors))
-    summary={"taxonomy_version":"v2","rows":len(rows),"unique_keys":len(seen),
+    version = path.stem.removeprefix("complication_taxonomy_")
+    summary={"taxonomy_version":version,"taxonomy_file":path.name,"rows":len(rows),"unique_keys":len(seen),
              "analysis_role_counts":dict(roles),"validation_passed":True}
     if output:
         output.parent.mkdir(parents=True,exist_ok=True)
