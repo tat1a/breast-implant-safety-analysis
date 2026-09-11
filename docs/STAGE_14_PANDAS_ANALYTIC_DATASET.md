@@ -21,5 +21,9 @@ which prevents accidental row multiplication.
 - domain_summary.csv: included-domain report counts and percentages.
 - analytic_dataset_qc.json: reconciliation, mapping coverage, dates, and warnings.
 
+The QC gate also reconciles report-label links against the independently generated full
+profile inventory. Missing event dates are reported separately from malformed nonmissing
+dates. JSON null values are not treated as literal complication labels.
+
 Percentages are proportions of scoped MDR reports, not incidence among implanted patients.
 FTR/FWM columns identify query inclusion and must not be interpreted as comparative safety.
