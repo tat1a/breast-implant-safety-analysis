@@ -1,0 +1,8 @@
+﻿metric,value
+scoped MDR reports,237194
+patient entries,237155
+device entries,241342
+reports with at least one follow-up,140095
+reports with event-to-receipt lag available,184783
+reports missing a usable event date,52411
+negative event-to-receipt lag rows,149
