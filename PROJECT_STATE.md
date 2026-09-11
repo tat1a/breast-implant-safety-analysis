@@ -2,68 +2,64 @@
 
 ## Project
 
-Breast Implant Postmarket Safety Portfolio Project
+Breast Implant Postmarket Safety Analysis — clinical-data portfolio project
 
 ## Current phase
 
-Orientation, product-code verification, pagination, and relational normalization complete. Pilot missingness, multiplicity, reconciliation, and selected-category profiling is implemented for owner reproduction.
+Core analytical work is complete. Stage 18 is preparing the repository for portfolio
+publication by updating its entrypoint and adding selected aggregate outputs.
 
-## Completed
+## Verified completed work
 
-- Portfolio fit evaluated.
-- MAUDE interpretation exercise completed by project owner.
-- Valid and prohibited inference rules documented.
-- Scope Version 0.1 confirmed.
-- Protocol Version 0.1 drafted.
-- Decision log created.
-- FDA Product Classification file retrieved from the official weekly download.
-- Primary codes `FTR` and `FWM` verified and recorded.
-- Reproducible, dependency-free Device Event API pilot implemented and tested.
-- Date-filtered FTR/FWM queries run successfully for 2020–2025.
-- Draft API field mapping and relational table design documented.
-- Search-after pagination, per-page checksums, and atomic checkpoint writing implemented.
-- Pagination unit tests added; full extraction remains intentionally disabled by procedure.
-- Report/device/patient normalization implemented with primary/foreign keys, age parsing, and QC output.
-- Raw narratives are excluded from normalized pilot tables.
-- Missingness denominators are table-specific and explicitly recorded.
-- Device/patient row reconciliation and multiplicity checks are implemented.
+- Frozen FTR/FWM openFDA Device Event queries for date_received 2020–2025.
+- Checkpointed search-after pagination with retry, resume, checksum, and duplicate protection.
+- 237,213 API records downloaded and reconciled.
+- 237,194 unique reports after resolving 19 cross-query overlaps.
+- Relational normalization into 237,194 report rows, 241,342 device entries, and
+  237,155 patient entries, with zero orphan foreign keys.
+- Full missingness, multiplicity, and label inventory profiling.
+- Reviewed taxonomy v5 with 106 exact mappings and 98.79% report-label-link coverage.
+- Report-level pandas analytical dataset with zero duplicate report keys.
+- Annual, query-code, category, domain, reporter-source, follow-up, lag, demographic,
+  and manufacturer/brand reporting summaries.
+- Final evidence package with five reconciliation checks passing.
+- 57 automated tests passing at Stage 17 verification.
 
-## Confirmed decisions
+## Confirmed analytical boundaries
 
-- Permanent breast implants; aesthetic and reconstructive relevance.
-- Study window 2020–2025.
-- Tissue expander-only records excluded from primary cohort and retained as a possible exploratory cohort.
-- Descriptive signal characterization and data-quality analysis only.
+- Report counts are not unique patient or device counts.
+- Category percentages may overlap within reports.
+- MAUDE lacks the implanted-patient/device denominator required for incidence.
 - No incidence, prevalence, causality, comparative-safety, or patient-risk claims.
+- Manufacturer/brand counts are report associations, not safety rankings.
+- date_received is the cohort field and is not the clinical event date.
+- Negative event-to-receipt intervals remain auditable anomalies.
+- Raw JSON and row-level processed data remain local and excluded from Git.
 
-## Pilot-confirmed decisions
+## Publishable headline metrics
 
-- `date_received` is the primary cohort-filter field.
-- Raw API JSON stays local and excluded from version control/public packages.
-- Report, device, and patient structures will be normalized into linked tables.
+- 237,194 unique scoped MDR reports.
+- 140,095 reports (59.06%) with at least one coded follow-up.
+- 184,783 reports with an available event-to-receipt interval.
+- 52,411 reports without a usable clinical event date.
+- 149 negative event-to-receipt intervals excluded from nonnegative lag summaries.
+- Most frequently mapped categories: rupture 100,777 (42.49%), capsular contracture
+  98,586 (41.56%), and nonspecific implant failure 69,675 (29.37%).
 
-## Provisional decisions requiring full-data profiling
+## Remaining tasks
 
-- Initial/supplemental linkage logic.
-- Mandatory/voluntary source mapping feasibility.
-- Indication classification feasibility.
-- Narrative-analysis sample and method.
-
-## Blockers
-
-- No local technical environment or public GitHub remote has been configured for this repository.
-- Full retrieval/pagination strategy and rate-limit handling are not yet implemented.
-
-## Next three actions
-
-1. Run pilot profiling and review missingness denominators and reconciliation differences.
-2. Identify fields that require codebook validation or cannot support planned analyses.
-3. Draft complication taxonomy and manual narrative-validation protocol without claiming pilot findings.
+1. Commit only the selected aggregate Stage 17 report, metrics, and figures.
+2. Review GitHub rendering and links.
+3. Add the final portfolio project description to CV and LinkedIn.
+4. Optionally create a public interactive dashboard after the static repository is complete.
 
 ## CV/LinkedIn claim status
 
-Not eligible to be described as a completed project. It may be described privately as a planned portfolio study only.
+Eligible to be described as a completed independent portfolio analysis after Stage 18
+is merged and selected aggregate outputs are visible in the repository. Claims must
+retain the descriptive postmarket-surveillance framing and must not imply incidence,
+causality, or comparative safety.
 
 ## Last updated
 
-2026-09-08
+2026-09-11
