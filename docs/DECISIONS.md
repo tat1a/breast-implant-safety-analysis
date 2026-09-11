@@ -9,7 +9,7 @@
 | D-005 | 2026-09-08 | Primary unit is initial report | Avoid automatically treating supplemental updates as independent events | Provisional until pilot linkage review |
 | D-006 | 2026-09-08 | Do not hard-code breast-implant product codes from memory | Cohort must be verified using official FDA classification data | Confirmed |
 | D-007 | 2026-09-08 | Treat mandatory/voluntary status as a derived field only if FDA definitions support it | No assumption that a single reliable status field exists | Confirmed |
-| D-008 | 2026-09-08 | Do not include project on CV as completed yet | No data extraction, analysis, or QA has occurred | Confirmed |
+| D-008 | 2026-09-08 | Do not include project on CV as completed yet | No data extraction, analysis, or QA had occurred at that point | Superseded by D-012 |
 | D-009 | 2026-09-08 | Use FTR and FWM as the primary permanent breast-implant product codes | Verified in the FDA Product Classification file dated 2026-09-07; both are internal Class III implanted breast prostheses | Confirmed; recheck at final extraction |
 | D-010 | 2026-09-08 | Exclude external prostheses KCZ and NOJ and external expander MWZ | They are not permanent internal breast implants | Confirmed |
 | D-011 | 2026-09-08 | Do not add PQN tissue expander to the primary cohort | It is an implanted tissue expander, not a permanent breast prosthesis | Confirmed; exploratory only |
@@ -56,3 +56,14 @@
 - Remove blank/null items and exact repeated problem labels while retaining item order.
 - Preserve repeated follow-up entries and derive a separate follow-up count.
 - Standardize only reviewed capitalization variants; queue unknown codes for validation.
+
+
+# 2026-09-11 — Final analysis and publication decisions
+
+| ID | Date | Decision | Reason | Status |
+|---|---|---|---|---|
+| D-012 | 2026-09-11 | Permit completed-project wording on CV/LinkedIn after final QC and aggregate publication | Full extraction, normalization, analysis, 57 tests, and final reconciliation gates passed | Confirmed |
+| D-013 | 2026-09-11 | Define the primary analytical unit as a unique scoped MDR report row | Actual pipeline deduplicates verified FTR/FWM cross-query overlap by mdr_report_key; reports are not unique clinical events or patients | Confirmed |
+| D-014 | 2026-09-11 | Publish only aggregate tables, figures, and QC artifacts | Protect privacy and keep raw narratives and row-level data outside Git | Confirmed |
+| D-015 | 2026-09-11 | Retain 439 rare P3 labels as auditable unmapped terms | Reviewed P1/P2 mappings already cover 98.79% of label-report links; forced rare-label mapping would add unvalidated classification | Confirmed |
+| D-016 | 2026-09-11 | Exclude negative event-to-receipt intervals from nonnegative lag summaries while counting them as anomalies | Negative values are unsuitable for elapsed-time summaries but must not be silently deleted | Confirmed |
