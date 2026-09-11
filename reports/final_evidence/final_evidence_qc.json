@@ -1,0 +1,22 @@
+{
+  "scope": "final evidence package for full FTR/FWM 2020-2025 cohort",
+  "input_report_rows": 237194,
+  "upstream_reporting_qc_passed": true,
+  "upstream_characteristics_qc_passed": true,
+  "reconciliation_checks": {
+    "annual_reports_reconcile": true,
+    "followup_buckets_reconcile": true,
+    "lag_years_reconcile": true,
+    "patient_age_status_reconciles": true,
+    "category_counts_within_report_denominator": true
+  },
+  "outputs": [
+    "final_summary_metrics.csv",
+    "top_reported_categories.csv",
+    "FINAL_EVIDENCE_SUMMARY.md",
+    "figures/followup_multiplicity.svg",
+    "figures/median_reporting_lag.svg"
+  ],
+  "qc_gate_passed": true,
+  "warning": "FDA MDR reporting patterns; not unique patients/devices, incidence, causality, comparative safety, or manufacturer safety rankings."
+}

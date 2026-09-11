@@ -1,0 +1,11 @@
+﻿clinical_domain,category,report_count,pct_of_all_reports
+device_integrity,rupture,100777,42.4872
+local_complication,capsular contracture,98586,41.5634
+device_integrity,implant failure nonspecific,69675,29.3747
+biocompatibility,device triggered rejection,49957,21.0617
+structural_aesthetic_outcome,deformity disfigurement,33896,14.2904
+device_integrity,leak or deflation,25635,10.8076
+fluid_collection,seroma,9712,4.0945
+biocompatibility,patient device incompatibility,9610,4.0515
+patient_symptom,pain,7389,3.1152
+device_patient_interaction,patient device interaction,5506,2.3213
