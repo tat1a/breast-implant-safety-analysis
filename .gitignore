@@ -11,4 +11,7 @@ data/external/foiclass_*.txt
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
+
+# Ignore ad-hoc Power BI working files while retaining the final portfolio report.
 dashboard/*.pbix
+!dashboard/Breast_Implant_Postmarket_Safety.pbix
