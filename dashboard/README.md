@@ -2,11 +2,44 @@
 
 ## Purpose
 
-The dashboard presents aggregate FDA MDR reporting patterns for the frozen FTR/FWM
-2020–2025 cohort. It must never present report proportions as incidence, causal risk,
-or comparative device/manufacturer safety.
+This four-page dashboard presents aggregate FDA MAUDE/openFDA reporting patterns for
+the frozen FTR/FWM breast-implant cohort received during 2020–2025. It is a
+descriptive surveillance product and must not be interpreted as incidence, causal
+risk, or comparative device or manufacturer safety.
 
-## Build the input tables
+## Dashboard pages
+
+1. **Executive Overview** — cohort KPIs, annual MDR volume, leading mapped
+   complication categories, and product-code query composition.
+2. **Reporting Quality & Follow-up** — reporting-lag quartiles, follow-up submission
+   multiplicity, event-date completeness, and negative-lag QA.
+3. **Reporter & Patient-Entry Profile** — patient-entry age parsing, reporter
+   occupations, source types, source composition, and demographic-field completeness.
+4. **Methodology & Limitations** — cohort definition, analytical pipeline,
+   validation controls, interpretation rules, and prohibited uses.
+
+The PBIX also contains a hidden **QA – Validation** page that reconciles dashboard
+metrics with the validated aggregate exports.
+
+## Files
+
+- [Power BI Desktop report](Breast_Implant_Postmarket_Safety.pbix)
+- [Four-page PDF export](Breast_Implant_Postmarket_Safety.pdf)
+- [Technical QA record](TECHNICAL_QA.md)
+- [Validated aggregate inputs](data/)
+- [Portfolio previews](previews/)
+
+## Preview
+
+![Executive Overview](previews/dashboard-executive-overview.png)
+
+![Reporting Quality and Follow-up](previews/dashboard-reporting-quality.png)
+
+![Reporter and Patient-Entry Profile](previews/dashboard-reporter-patient-profile.png)
+
+![Methodology and Limitations](previews/dashboard-methodology-limitations.png)
+
+## Rebuild the aggregate inputs
 
 From the repository root:
 
@@ -16,119 +49,20 @@ From the repository root:
 Get-Content .\dashboard\data\PowerBI_QC.json
 ~~~
 
-The builder refuses to export when an upstream QC gate or model reconciliation fails.
-The output contains aggregate data only: no report-level rows, narratives, API keys,
-or manufacturer safety ranking.
+The builder refuses to export when an upstream QC gate or reconciliation check fails.
+Only aggregate, non-identifiable outputs are published. Report-level records,
+narratives, API keys, and raw responses remain excluded from Git.
 
-## Import
+## Data model
 
-In Power BI Desktop select **Get data → Text/CSV** and import every CSV under
-dashboard/data/. Do not import PowerBI_QC.json into the visual model.
+`DimYear[Year]` filters the annual aggregate tables through single-direction,
+one-to-many relationships. Whole-cohort and presentation-only aggregate tables remain
+disconnected to prevent multiplication of values. Percentage measures are calculated
+from counts rather than summed from precomputed percentage columns.
 
-Use **Transform data** to confirm:
+## Interpretation standard
 
-- Year and all count fields: Whole number
-- percentage and lag summary fields: Decimal number
-- category/domain/source/field/value fields: Text
-
-Disable automatic date hierarchies for this file; DimYear is the explicit time
-dimension.
-
-## Model relationships
-
-Create single-direction, one-to-many relationships from DimYear[Year] to:
-
-- AnnualReporting[Year]
-- QueryComposition[Year]
-- CategoryByYear[Year]
-- DomainByYear[Year]
-- ReportingLag[Year]
-- EventDateCompleteness[Year]
-
-KpiSummary is intentionally disconnected because it contains whole-cohort constants.
-CategoryOverall, FollowupSummary, PatientEntryCharacteristics, ReporterSource,
-SourceType, and DataDictionary are aggregate/disconnected presentation tables.
-
-Do not create relationships between aggregate fact tables. That would multiply values.
-
-## Recommended measures
-
-~~~DAX
-Scoped Reports =
-MAX ( KpiSummary[ScopedReports] )
-
-Reports With Follow-up =
-MAX ( KpiSummary[ReportsWithFollowup] )
-
-Reports With Follow-up % =
-DIVIDE ( [Reports With Follow-up], [Scoped Reports] )
-
-Reports Missing Event Date =
-MAX ( KpiSummary[ReportsMissingEventDate] )
-
-Annual Reports =
-SUM ( AnnualReporting[ReportCount] )
-
-Category Reports =
-SUM ( CategoryByYear[ReportCount] )
-
-Selected Category Reporting % =
-DIVIDE ( [Category Reports], [Annual Reports] )
-~~~
-
-Format the percentage measures as Percentage with one or two decimal places. Do not
-sum precomputed percentage columns across categories or years.
-
-## Page plan
-
-### 1 — Executive overview
-
-- Cards: Scoped Reports, Device Entries, Patient Entries, Reports With Follow-up %,
-  Reports Missing Event Date.
-- Line chart: AnnualReporting Year versus ReportCount.
-- Horizontal bar chart: top CategoryOverall categories by PctOfAllReports.
-- Permanent visible warning: “MDR report proportions—not incidence, causality, or
-  comparative safety.”
-
-### 2 — Reporting trends
-
-- Year slicer using DimYear.
-- Stacked columns: QueryComposition by QueryGroup.
-- Lines or small multiples: CategoryByYear reporting proportion for selected categories.
-- Domain trend chart using DomainByYear.
-- Context note that changes may reflect coding, reporting, publicity, or regulation.
-
-### 3 — Complication categories
-
-- ClinicalDomain and Category slicers.
-- Category count and reporting-proportion visuals.
-- Category × year heatmap or matrix.
-- Tooltip stating that categories overlap within reports.
-
-### 4 — Data quality and follow-up
-
-- FollowupSummary column chart.
-- ReportingLag median with Q1/Q3 information.
-- EventDateCompleteness missing percentage by year.
-- PatientEntryCharacteristics completeness visuals labeled “patient entries, not
-  unique patients.”
-- NegativeLagRows card.
-
-### 5 — Methods and limitations
-
-- Data source, product codes, date window, analytical unit, taxonomy coverage,
-  extraction/QC method, and explicit prohibited inferences.
-- Link or QR code to the GitHub repository after it becomes public.
-
-## Design standard
-
-Use a restrained clinical palette, consistent title capitalization, generous spacing,
-and no 3D charts. Prefer dark navy, teal, white, and one warm alert color. Every page
-must contain a compact inference warning. Use report counts or explicitly labeled
-“percent of scoped MDR reports”; never label a visual “risk,” “rate,” or “incidence.”
-
-## Publication
-
-The PBIX file remains local by default. Export a PDF and page screenshots for GitHub.
-Online publishing requires Power BI Service access and should occur only after the
-dashboard passes privacy, denominator, filter, and visual-label review.
+Every page includes an inference warning. Categories and source-type labels are
+nonexclusive where stated. Patient rows are extracted entries, not verified unique
+individuals. The dashboard must not be used to estimate incidence, causality,
+comparative safety, or the number of implanted patients or devices.
