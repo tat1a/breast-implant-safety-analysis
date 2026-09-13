@@ -31,13 +31,11 @@ metrics with the validated aggregate exports.
 
 ## Preview
 
-![Executive Overview](previews/dashboard-executive-overview.png)
-
-![Reporting Quality and Follow-up](previews/dashboard-reporting-quality.png)
-
-![Reporter and Patient-Entry Profile](previews/dashboard-reporter-patient-profile.png)
-
-![Methodology and Limitations](previews/dashboard-methodology-limitations.png)
+| Executive Overview | Reporting Quality & Follow-up |
+| --- | --- |
+| [![Executive Overview](previews/dashboard-executive-overview.png)](previews/dashboard-executive-overview.png) | [![Reporting Quality and Follow-up](previews/dashboard-reporting-quality.png)](previews/dashboard-reporting-quality.png) |
+| Reporter & Patient-Entry Profile | Methodology & Limitations |
+| [![Reporter and Patient-Entry Profile](previews/dashboard-reporter-patient-profile.png)](previews/dashboard-reporter-patient-profile.png) | [![Methodology and Limitations](previews/dashboard-methodology-limitations.png)](previews/dashboard-methodology-limitations.png) |
 
 ## Rebuild the aggregate inputs
 

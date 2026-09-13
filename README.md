@@ -1,8 +1,10 @@
 # Breast Implant Postmarket Safety Analysis
 
-[![tests](https://github.com/tat1a/breast-implant-safety-analysis/actions/workflows/tests.yml/badge.svg)](https://github.com/tat1a/breast-implant-safety-analysis/actions/workflows/tests.yml)
+[![tests](https://github.com/tat1a/breast-implant-safety-analysis/actions/workflows/tests.yml/badge.svg)](https://github.com/tat1a/breast-implant-safety-analysis/actions/workflows/tests.yml) [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?logo=powerbi&logoColor=black)](dashboard/README.md) [![License: MIT](https://img.shields.io/badge/License-MIT-0B5CAD.svg)](LICENSE)
 
 **A reproducible descriptive analysis of FDA Medical Device Reports for permanent breast implants, 2020–2025**
+
+[Dashboard](#power-bi-dashboard) · [Key findings](#key-findings) · [Methods](#reproduce-the-analysis) · [Interpretation boundaries](#interpretation-boundaries) · [Portfolio claims](docs/PORTFOLIO_CLAIMS.md)
 
 ## Project overview
 

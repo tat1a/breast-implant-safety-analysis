@@ -10,7 +10,7 @@ Built a reproducible Python/pandas pipeline to extract, normalize, quality-check
 analyze 237,194 unique FDA medical device reports involving permanent breast implants.
 Developed a reviewed clinical complication taxonomy covering 98.79% of report-label
 links, modeled nested report/device/patient data, evaluated missingness and follow-up
-patterns, and produced validated analytical tables and visualizations. Framed findings
+patterns, and produced validated analytical tables, visualizations, and a four-page Power BI dashboard. Framed findings
 as postmarket reporting signals rather than incidence, causality, or comparative safety.
 
 ## CV bullets
@@ -21,7 +21,7 @@ as postmarket reporting signals rather than incidence, causality, or comparative
 - Created a reviewed clinical taxonomy covering 98.79% of 544,199 report-label links
   and built report-level pandas analyses of complication reporting, temporal patterns,
   follow-up multiplicity, missingness, and reporting lag.
-- Implemented 57 automated tests and QC-gated evidence generation; produced
+- Implemented 59 automated tests and QC-gated evidence generation; produced
   publication-ready tables and figures while explicitly preventing unsupported
   incidence, causal, and comparative-safety claims.
 
@@ -42,8 +42,8 @@ and 52,411 reports lacked a usable clinical event date. Rupture and capsular
 contracture were the most frequently mapped reported categories. These are reporting
 patterns, not incidence or patient-risk estimates.
 
-**Tools:** Python, pandas, matplotlib, openFDA API, JSON, CSV, Git, GitHub, unit testing,
-relational data modeling, data-quality validation.
+**Tools:** Python, pandas, matplotlib, Power BI, DAX, Power Query, openFDA API, JSON,
+CSV, Git, GitHub Actions, unit testing, relational data modeling, and data-quality validation.
 
 ## Interview explanation
 

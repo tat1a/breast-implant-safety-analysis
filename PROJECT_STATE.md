@@ -53,10 +53,9 @@ These are proportions of scoped MDR reports, not implanted patients.
 
 ## Remaining publication work
 
-1. Confirm the final GitHub Actions run is successful.
-2. Change repository visibility to public after the final privacy review.
-3. Add a concise repository description and relevant GitHub topics.
-4. Add the verified project description and repository link to CV and LinkedIn.
+1. Change repository visibility to public after the completed privacy review.
+2. Add a concise repository description and relevant GitHub topics.
+3. Add the verified project description and repository link to CV and LinkedIn.
 
 ## CV/LinkedIn claim status
 
