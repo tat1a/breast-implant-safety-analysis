@@ -6,12 +6,13 @@ Breast Implant Postmarket Safety Analysis — clinical-data portfolio project
 
 ## Status
 
-Core study complete and technically eligible for portfolio use. Power BI dashboard
-presentation is the remaining enhancement.
+Complete and technically eligible for portfolio publication. The reproducible
+analytical pipeline, final evidence package, Power BI dashboard, static previews,
+PDF export, and dashboard QA record are present in the repository.
 
 ## Verified completion
 
-- Frozen FTR/FWM openFDA cohort using date_received 2020–2025.
+- Frozen FTR/FWM openFDA cohort using `date_received` for 2020–2025.
 - 237,213 API records retrieved and reconciled.
 - 237,194 unique reports after 19 verified cross-query overlaps.
 - 241,342 device entries and 237,155 patient entries normalized with zero orphan keys.
@@ -20,9 +21,11 @@ presentation is the remaining enhancement.
 - Report-level pandas analytical layer with zero duplicate report keys.
 - Aggregate reporting-pattern, category, lag, follow-up, demographic, and
   manufacturer/brand-association summaries.
-- Final evidence package with all five reconciliation gates passed.
-- 57 automated tests passed at Stage 17 verification.
-- Aggregate findings, figures, QC manifest, README, and portfolio wording published.
+- Final evidence package with all reconciliation gates passed.
+- 59 automated tests passed at final dashboard verification.
+- Four-page Power BI dashboard with a hidden QA validation page.
+- Static dashboard previews, PDF export, technical QA record, and recruiter-facing
+  repository documentation published.
 
 ## Frozen analytical boundaries
 
@@ -31,7 +34,7 @@ presentation is the remaining enhancement.
 - MAUDE lacks an implanted-patient/device exposure denominator.
 - No incidence, prevalence, causality, comparative-safety, or patient-risk claims.
 - Manufacturer/brand counts are reporting associations, not safety rankings.
-- date_received is the cohort date and is not the clinical event date.
+- `date_received` is the cohort date and is not the clinical event date.
 - Negative reporting lags remain auditable anomalies.
 - Raw JSON, narratives, and row-level processed data remain local and excluded.
 
@@ -48,20 +51,20 @@ presentation is the remaining enhancement.
 
 These are proportions of scoped MDR reports, not implanted patients.
 
-## Remaining presentation work
+## Remaining publication work
 
-1. Build and verify the Power BI dashboard.
-2. Export static dashboard images/PDF for recruiters without Power BI.
-3. Add final dashboard previews and links to the README.
-4. Change repository visibility only after a final privacy and link review.
-5. Add the verified project description to CV and LinkedIn.
+1. Confirm the final GitHub Actions run is successful.
+2. Change repository visibility to public after the final privacy review.
+3. Add a concise repository description and relevant GitHub topics.
+4. Add the verified project description and repository link to CV and LinkedIn.
 
 ## CV/LinkedIn claim status
 
 The project may be described as a completed independent clinical-data/postmarket
-surveillance portfolio analysis. Do not claim incidence, causality, comparative
-safety, unique-patient analysis, or clinical prediction.
+surveillance portfolio analysis with a reproducible Python pipeline and Power BI
+dashboard. Do not claim incidence, causality, comparative safety, unique-patient
+analysis, or clinical prediction.
 
 ## Last updated
 
-2026-09-11
+2026-09-14
